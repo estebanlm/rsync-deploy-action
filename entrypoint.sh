@@ -15,16 +15,10 @@ END
 
 cmd_rsync="rsync -avz"
 
-echo ">>>"
-echo ${INPUT_REPOSITORY_PATH}
-echo ${INPUT_SERVER_PATH}
-echo ${GITHUB_WORKSPACE}
-echo "<<<"
-
 # Uploading the file-s
 echo Upload file/-s...
 if [ ${INPUT_REPOSITORY_PATH:0:1} = "/" ]; then
-  ${cmd_rsync} ${GITHUB_WORKSPACE}/${INPUT_REPOSITORY_PATH:1} server:${INPUT_SERVER_PATH}
+  ${cmd_rsync} ${GITHUB_WORKSPACE}/${INPUT_REPOSITORY_PATH:1} server:files.pharo.org
 else
-  ${cmd_rsync} ${GITHUB_WORKSPACE}/${INPUT_REPOSITORY_PATH} server:${INPUT_SERVER_PATH}
+  ${cmd_rsync} ${GITHUB_WORKSPACE}/${INPUT_REPOSITORY_PATH} server:files.pharo.org
 fi
