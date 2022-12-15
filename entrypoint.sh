@@ -13,15 +13,13 @@ Host server
     IdentityFile /root/.ssh/id_rsa.key
 END
 
-if [ -z "$ARGS" ]; then
-	echo "ARGS not defined, using default -avz"
-	ARGS="-avvvvz"
-fi
+cmd_rsync="rsync -avz"
 
-cmd_rsync="rsync ${ARGS} ${ARGS_MORE} --debug=all4 --stderr=all"
-
-# Ping
-ping -4 -c 4 ${INPUT_HOST}
+echo ">>>"
+echo ${INPUT_REPOSITORY_PATH}
+echo ${INPUT_SERVER_PATH}
+echo ${GITHUB_WORKSPACE}
+echo "<<<"
 
 # Uploading the file-s
 echo Upload file/-s...
