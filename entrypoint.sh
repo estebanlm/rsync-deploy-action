@@ -13,12 +13,18 @@ Host server
     IdentityFile /root/.ssh/id_rsa.key
 END
 
-# Uploading the file-s
-echo starting to upload file/-s...
-if [ ${INPUT_REPOSITORY_PATH:0:1} = "/" ]
-then
-  rsync -avz $GITHUB_WORKSPACE/${INPUT_REPOSITORY_PATH:1} server:$INPUT_SERVER_PATH
-else
-  rsync -avz $GITHUB_WORKSPACE/$INPUT_REPOSITORY_PATH server:$INPUT_SERVER_PATH
+
+if [ -z "$ARGS" ]; then
+	echo "ARGS not defined, using default -avz"
+	ARGS="-avz"
 fi
-echo finished uploading...
+
+cmd_rsync="rsync ${ARGS} ${ARGS_MORE} --debug=all4"
+
+# Uploading the file-s
+echo Upload file/-s...
+if [ ${INPUT_REPOSITORY_PATH:0:1} = "/" ]; then
+  ${cmd_rsync} $GITHUB_WORKSPACE/${INPUT_REPOSITORY_PATH:1} server:$INPUT_SERVER_PATH
+else
+  ${cmd_rsync} $GITHUB_WORKSPACE/$INPUT_REPOSITORY_PATH server:$INPUT_SERVER_PATH
+fi
